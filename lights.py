@@ -21,7 +21,7 @@ def refractVector(normal, direction, ior):
     etat = ior
 
     if cosi < 0:
-        cosi = -cosi
+        cosi = -1*cosi
     else:
         etai, etat = etat, etai
         normal = [normal[0] * -1,
@@ -34,13 +34,15 @@ def refractVector(normal, direction, ior):
     if k < 0: # Total internal Reflection
         return None
 
-    normalStr = [(eta * cosi - k**0.5) * normal[0], 
-                 (eta * cosi - k**0.5) * normal[1],
-                 (eta * cosi - k**0.5) * normal[2]]
+    dirStrange = [direction[0] * eta,
+                  direction[1] * eta,
+                  direction[2] * eta]
 
-    dirStrange = [eta * direction[0],
-                  eta * direction[1],
-                  eta * direction[2]]
+    vari = (eta * cosi - k**0.5)
+    normalStr = [normal[0] * vari, 
+                 normal[1] * vari,
+                 normal[2] * vari]
+
     R = addVectors(dirStrange, normalStr)
     return R
 
@@ -62,8 +64,8 @@ def fresnel(normal, direction, ior):
     cost = max(0, 1 - sint**2) ** 0.5
     cosi = abs(cosi)
 
-    Rs = ((etat * cosi) - (etai * cosi)) / ((etat * cosi) + (etai * cosi))
-    Rp = ((etai * cosi) - (etat * cosi)) / ((etai * cosi) + (etat * cosi))
+    Rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost))
+    Rp = ((etai * cosi) - (etat * cost)) / ((etai * cosi) + (etat * cost))
 
     return (Rs**2 + Rp**2) /2
      

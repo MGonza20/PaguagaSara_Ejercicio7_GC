@@ -176,8 +176,8 @@ class Raytracer(object):
                 refractOrig = subtractVList(intersect.point, bias) if outside else  addVectors(intersect.point, bias)
                 refractColor = self.cast_ray(refractOrig, refract, None, recursion + 1)
 
-                nReflectColor = [reflectColor[0] * kr, reflectColor[1] * kr, reflectColor[2] * kr]
-                nRefractColor = [refractColor[0] * (1 - kr), refractColor[1] * (1 - kr), refractColor[2] * (1 - kr)]
+            nReflectColor = [reflectColor[0] * kr, reflectColor[1] * kr, reflectColor[2] * kr]
+            nRefractColor = [refractColor[0] * (1 - kr), refractColor[1] * (1 - kr), refractColor[2] * (1 - kr)]
 
             firstSum = addVectors(nReflectColor, nRefractColor)
             secondSum = addVectors(firstSum, specColor)
