@@ -154,6 +154,37 @@ class Raytracer(object):
 
             finalColor = addVectors(reflectColor, specColor)
 
+        elif material.matType == TRANSPARENT:
+            outside = dotProduct(dir, intersect.normal) < 0 # Verificar si el rayo viene de adentro o fuero
+            bias =  [intersect.normal[0] * 0.001, 
+                     intersect.normal[1] * 0.001, 
+                     intersect.normal[2] * 0.001]
+
+            specColor = [0,0,0]
+            for light in self.lights:
+                specColor = addVectors(specColor, light.getSpecColor(intersect, self))
+
+            reflect = reflectVector(intersect.normal, [dir[0] * -1, dir[1] * -1, dir[2] * -1,])
+            reflectOrig = addVectors(intersect.point, bias) if outside else subtractVList(intersect.point, bias)
+            reflectColor = self.cast_ray(reflectOrig, reflect, None, recursion + 1)
+
+            kr = fresnel(intersect.normal, dir, material.ior)
+
+            refractColor = [0, 0, 0]
+            if kr < 1:
+                refract = refractVector(intersect.normal, dir, material.ior)
+                refractOrig = subtractVList(intersect.point, bias) if outside else  addVectors(intersect.point, bias)
+                refractColor = self.cast_ray(refractOrig, refract, None, recursion + 1)
+
+                nReflectColor = [reflectColor[0] * kr, reflectColor[1] * kr, reflectColor[2] * kr]
+                nRefractColor = [refractColor[0] * (1 - kr), refractColor[1] * (1 - kr), refractColor[2] * (1 - kr)]
+
+            firstSum = addVectors(nReflectColor, nRefractColor)
+            secondSum = addVectors(firstSum, specColor)
+            finalColor = secondSum
+
+
+
         finalColorArr = [finalColor[0] * objectColor[0],
                          finalColor[1] * objectColor[1],
                          finalColor[2] * objectColor[2]]

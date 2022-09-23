@@ -13,6 +13,62 @@ def reflectVector(normal, direction):
     reflect = normV(reflect)
     return reflect
 
+# ior (Indice de refraccion)
+def refractVector(normal, direction, ior): 
+    # Snell's law
+    cosi = max(-1, min(1, dotProduct(direction, normal)))
+    etai = 1
+    etat = ior
+
+    if cosi < 0:
+        cosi = -cosi
+    else:
+        etai, etat = etat, etai
+        normal = [normal[0] * -1,
+                  normal[1] * -1,
+                  normal[2] * -1]
+
+    eta = etai / etat
+    k = 1 - (eta**2) * (1 - (cosi**2)) 
+
+    if k < 0: # Total internal Reflection
+        return None
+
+    normalStr = [(eta * cosi - k**0.5) * normal[0], 
+                 (eta * cosi - k**0.5) * normal[1],
+                 (eta * cosi - k**0.5) * normal[2]]
+
+    dirStrange = [eta * direction[0],
+                  eta * direction[1],
+                  eta * direction[2]]
+    R = addVectors(dirStrange, normalStr)
+    return R
+
+
+def fresnel(normal, direction, ior):
+    # Fresnel Equation
+    cosi = max(-1, min(1, dotProduct(direction, normal)))
+    etai = 1
+    etat = ior
+
+    if cosi > 0:
+        etai, etat = etat, etai
+
+    sint  = etai / etat * (max(0, 1 - cosi**2) ** 0.5)
+
+    if sint >= 1:
+        return 1
+
+    cost = max(0, 1 - sint**2) ** 0.5
+    cosi = abs(cosi)
+
+    Rs = ((etat * cosi) - (etai * cosi)) / ((etat * cosi) + (etai * cosi))
+    Rp = ((etai * cosi) - (etat * cosi)) / ((etai * cosi) + (etat * cosi))
+
+    return (Rs**2 + Rp**2) /2
+     
+
+
 class DirectionalLight(object):
     def __init__(self, direction = (0,-1,0), intensity = 1, color = (1,1,1)):
         self.direction = normV(direction)
