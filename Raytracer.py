@@ -12,9 +12,15 @@ height = 1024
 brick = Material(diffuse = (0.8, 0.3, 0.3), spec = 16)
 stone = Material(diffuse = (0.4, 0.4, 0.4), spec = 8)
 
+earth = Material(texture = Texture("earthDay.bmp"))
+marble = Material( diffuse = (0.8, 0.8, 0.8), texture = Texture("marbleTex2.bmp"), spec = 32, matType = REFLECTIVE)
+marble2 = Material( diffuse = (0.2, 0.2, 0.8), texture = Texture("marbleTex3.bmp"), spec = 32, matType = TRANSPARENT)
+
+
 mirror = Material(diffuse = (0.9, 0.9, 0.9), spec = 64, matType = REFLECTIVE)
 
-glass = Material(diffuse = (0.9, 0.9, 0.9), spec = 64, ior = 1.5, matType = TRANSPARENT)
+glass = Material(diffuse = (0.8, 0.8, 0.8), spec = 64, ior = 1.5, matType = TRANSPARENT)
+diamond = Material(diffuse = (0.8, 0.8, 0.8), spec = 64, ior = 2.417, matType = TRANSPARENT)
 
 # blueMirror = Material(diffuse = (0.2, 0.2, 0.9), spec = 64, matType = REFLECTIVE)
 # yellowMirror = Material(diffuse = (0.9, 0.9, 0.2), spec = 64, matType = REFLECTIVE)
@@ -27,7 +33,15 @@ rtx.lights.append( AmbientLight(intensity = 0.1 ))
 rtx.lights.append( DirectionalLight(direction = (-1,-1,-1), intensity = 0.8 ))
 #rtx.lights.append( PointLight(point = (0,0,0)))
 
-rtx.scene.append( Sphere(V3(0,0,-10), 3, glass))
+# rtx.scene.append( Sphere(V3(-3,0,-10), 1, earth))
+rtx.scene.append( Sphere(V3(0,0,-10), 3, marble2))
+# rtx.scene.append( Sphere(V3(3,0,-10), 1, glass))
+# rtx.scene.append( Sphere(V3(3,1,-13), 1, stone))
+
+# rtx.scene.append( Sphere(V3(-3,0,-10), 1, brick))
+# rtx.scene.append( Sphere(V3(0,0,-10), 1, mirror))
+# rtx.scene.append( Sphere(V3(3,0,-10), 1, glass))
+# rtx.scene.append( Sphere(V3(3,1,-13), 1, stone))
 
 # rtx.scene.append( Sphere(V3(3,0,-10), 1, brick)  )
 # rtx.scene.append( Sphere(V3(0,3,-10), 1, stone)  )

@@ -184,10 +184,15 @@ class Raytracer(object):
             finalColor = secondSum
 
 
-
         finalColorArr = [finalColor[0] * objectColor[0],
                          finalColor[1] * objectColor[1],
                          finalColor[2] * objectColor[2]]
+
+        if material.texture and intersect.texcoords:
+            texColor = material.texture.getColor(intersect.texcoords[0], intersect.texcoords[1])
+            finalColorArr = [finalColorArr[0] * texColor[0],
+                             finalColorArr[1] * texColor[1],
+                             finalColorArr[2] * texColor[2]]
 
         r = min(1, finalColorArr[0])
         g = min(1, finalColorArr[1])
