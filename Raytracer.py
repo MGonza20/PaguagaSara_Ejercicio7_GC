@@ -33,19 +33,19 @@ diamond = Material(diffuse = (0.8, 0.8, 0.8), spec = 64, ior = 2.417, matType = 
 
 rtx = Raytracer(width, height)
 
-rtx.envMap = Texture("parkingLot.bmp")
+rtx.envMap = Texture("sunset.bmp")
 
 rtx.lights.append( AmbientLight(intensity = 0.1 ))
 rtx.lights.append( DirectionalLight(direction = (-1,-1,-1), intensity = 0.8 ))
 #rtx.lights.append( PointLight(point = (0,0,0)))
 
-rtx.scene.append( Sphere(V3(-3,1.5,-10), 1, marble3))
-rtx.scene.append( Sphere(V3(0,1.5,-10), 1, marble5))
-rtx.scene.append( Sphere(V3(3,1.5,-10), 1, marble9))
+rtx.scene.append( Sphere(V3(-3,1.5+1,-10), 1, marble3))
+rtx.scene.append( Sphere(V3(0,1.5+1,-10), 1, marble5))
+rtx.scene.append( Sphere(V3(3,1.5+1,-10), 1, marble9))
 
-rtx.scene.append( Sphere(V3(-3,-1.5,-10), 1, marble4))
-rtx.scene.append( Sphere(V3(0,-1.5,-10), 1, marble7))
-rtx.scene.append( Sphere(V3(3,-1.5,-10), 1, marble10))
+rtx.scene.append( Sphere(V3(-3,-1.5+1,-10), 1, marble4))
+rtx.scene.append( Sphere(V3(0,-1.5+1,-10), 1, marble7))
+rtx.scene.append( Sphere(V3(3,-1.5+1,-10), 1, marble10))
 
 # rtx.scene.append( Sphere(V3(3,1,-13), 1, stone))
 
